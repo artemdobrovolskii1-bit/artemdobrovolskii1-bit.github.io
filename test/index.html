@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Привет</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #14101f; --fg: #fff; }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    min-height: 100vh; display: grid; place-items: center; gap: 40px;
+    background: radial-gradient(circle at 30% 20%, #2a1850, var(--bg) 60%);
+    color: var(--fg); font-family: 'Unbounded', system-ui, sans-serif;
+    overflow: hidden; padding: 16px; text-align: center;
+  }
+  .wrap { display: grid; place-items: center; gap: 48px; }
+  button {
+    font: inherit; font-size: 22px; letter-spacing: .04em; cursor: pointer;
+    padding: 22px 56px; border: 0; border-radius: 999px; color: #14101f;
+    background: linear-gradient(90deg, #ffd23f, #ff6b6b, #c86bff);
+    box-shadow: 0 10px 40px rgba(255,107,107,.45);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  button:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 16px 50px rgba(200,107,255,.55); }
+  button:active { transform: scale(.96); }
+  h1 {
+    font-size: clamp(40px, 10vw, 110px); line-height: 1.05;
+    background: linear-gradient(90deg, #ff6b6b, #ffd23f, #4fe3a8, #4fb3ff, #c86bff, #ff6b6b);
+    background-size: 300% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: shine 4s linear infinite;
+    opacity: 0; transform: scale(.3) rotate(-8deg);
+    transition: opacity .5s ease, transform .7s cubic-bezier(.2,1.6,.4,1);
+    min-height: 1.1em;
+  }
+  h1.show { opacity: 1; transform: scale(1) rotate(0); }
+  @keyframes shine { to { background-position: 300% 0; } }
+  .confetti { position: fixed; top: -20px; width: 10px; height: 16px; border-radius: 3px; pointer-events: none;
+    animation: fall linear forwards; }
+  @keyframes fall { to { transform: translateY(110vh) rotate(720deg); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 id="msg">Привет, ты супер!</h1>
+  <button id="btn">Нажми</button>
+</div>
+<script>
+  const msg = document.getElementById('msg');
+  const colors = ['#ff6b6b','#ffd23f','#4fe3a8','#4fb3ff','#c86bff'];
+  document.getElementById('btn').addEventListener('click', () => {
+    msg.classList.remove('show'); void msg.offsetWidth; msg.classList.add('show');
+    for (let i = 0; i < 80; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[i % colors.length];
+      c.style.animationDuration = 1.8 + Math.random() * 1.8 + 's';
+      c.style.animationDelay = Math.random() * .4 + 's';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4200);
+    }
+  });
+</script>
+</body>
+</html>
